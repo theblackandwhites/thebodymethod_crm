@@ -1,0 +1,30 @@
+<!-- Menu -->
+<ul class="menu vertical side-menu">
+
+  <li><%= link_to "Bookable Types", bookable_types_path %></li>
+  <li><%= link_to "Bookables", bookables_path %></li>
+  <li><%= link_to "Locations", locations_path %></li>
+  <li><%= link_to "Insturctors", instructors_path %></li>
+  <li><%= link_to "My Charges", my_charges_path %></li>
+  <li><%= link_to "My Bookings", my_bookings_path %></li>
+  <li><%= link_to "Add Points", new_points_path %></li>
+  <li><%= link_to "Delete Points", remove_points_path %></li>
+  <li><%= link_to "Packages", packages_path %></li>
+  <li><%= link_to "Debts", debts_path %></li>
+  <% if user_signed_in? %>
+  <li><%= link_to "My Profile", profile_path(@myprofile) %></li>
+  <% end %>
+  <% if user_signed_in? %>
+      <li><%= link_to('Logout', destroy_user_session_path, method: :delete) %></li>
+  <% else %>
+    <li>
+    <%= link_to('Login', new_user_session_path)  %>  
+    </li>
+  <% end %>
+</ul>
+
+<button class="close-button" aria-label="Close menu" type="button" data-close>
+  <span aria-hidden="true">&times;</span>
+</button>
+
+

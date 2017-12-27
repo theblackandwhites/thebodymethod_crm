@@ -1,0 +1,51 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <%= link_to 'Create A New Package', new_package_path, class: "button primary" %>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>Packages</h1> 
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Subscription</th>
+            <th>Subscription interval count</th>
+            <th>Subscription interval</th>
+            <th>Stripe subscription</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @packages.each do |package| %>
+            <tr>
+              <td><%= package.title %></td>
+              <td><%= package.description %></td>
+              <td><%= package.price %></td>
+              <td><%= package.subscription %></td>
+              <td><%= package.subscription_interval_count %></td>
+              <td><%= package.subscription_interval %></td>
+              <td><%= package.stripe_subscription_id %></td>
+              <td><%= link_to 'Show', package %></td>
+              <td><%= link_to 'Edit', edit_package_path(package) %></td>
+              <td><%= link_to 'Destroy', package, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+

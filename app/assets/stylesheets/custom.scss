@@ -1,0 +1,564 @@
+@import 'settings';
+
+.vmenu a, .vmenu .button{
+	color: white !important;
+	font-size:14px;
+}
+
+.vmenu li{
+	border-top: 1px solid white !important;
+    padding: 5px !important;
+}
+
+.logo{
+	color: $white;
+	background-color:$medium-gray;
+	padding:30px 0;
+	text-align:center;
+}
+
+.info-box{
+	padding:20px;
+	font-size: 13px;
+}
+
+.table-box{
+	padding:20px;
+	font-size:14px !important;
+}
+
+.button.success {
+	color:$white !important;
+}
+
+
+.button.primary {
+	color:$white !important;
+}
+
+
+.success-color{
+	color:#3adb76 !important;
+}
+.warning-color{
+	color:#ffae00 !important;
+}
+.alert-color{
+	color:#cc4b37 !important;
+}
+
+/* Bookables Path */
+
+.gray-bg{
+	background-color: $light-gray;
+	min-height: 100vh;
+}
+
+.bookable_card{
+	margin-bottom:30px;
+}
+
+.bookable_instructor_photo img{
+	width: 70px;
+	height:70px;
+	border-radius:50%;
+	border:3px solid $white;
+}
+
+.bookable_payment_options{
+	font-size:0.5em;
+	color: $light-gray;
+	font-weight: 500;
+	line-height:0.5em;
+}
+
+.bookable_payment_options i{
+	margin-right:10px;
+}
+
+.bookable_payment_options_dark{
+	font-size:.8em;
+	color: $light-gray;
+	font-weight: 500;
+	line-height:0.5em;
+}
+
+.bookable_payment_options_dark i{
+	margin-right:10px;
+}
+
+.bookable_image{
+	position:relative;
+}
+
+.bookable-time{
+	position:absolute;
+	bottom: 0;
+	right: 0;
+	background-color:#fff;
+	padding:10px;
+}
+
+.bookable-date{
+	position:absolute;
+	bottom: 10px;
+	left: 10px;
+	background-color:#fff;
+	width:55px;
+	height: 59px;
+	border-bottom: 4px solid $success;
+}
+
+i.success{
+	color:$success !important;
+}
+
+.bookable-date-1{
+	font-size:0.8em;
+	font-weight:600;
+	color:$success;
+	margin-bottom:-8px;
+}
+
+.bookable-date-2{
+	font-size:1.4em;
+	font-weight:700;
+	color:$dark-gray;
+	margin-bottom:-10px;
+}
+
+.bookable-date-3{
+	font-size:0.8em;
+	font-weight:600;
+	color:$dark-gray;
+}
+
+.bookable-time h4{
+	margin-bottom:0 !important;
+	line-height:0 !important;
+	font-weight: 700 !important;
+	font-size:0.8em;
+}
+
+
+.bookable_instructor_photo{
+	position:absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.bookable_text{
+	padding: 20px;
+	font-size:0.85em;
+	background-color: $white;
+	height:320px;
+}
+
+.bookable_text h4{
+	font-size:1.1em;
+	color: $light-gray;
+	font-weight: 500;
+	line-height:1.2em;
+}
+
+.bookable_text h5{
+	font-size:.7em;
+	color: $light-gray;
+	font-weight: 500;
+	line-height:.8em;
+}
+
+.bookable_text h4.success, .bookable_description h4.success{
+	color: $success-color;
+	font-weight: 600;
+}
+
+.bookable_text h4.alert, .bookable_description h4.alert{
+	color: $alert-color;
+	font-weight: 600;
+}
+
+.bookable_title h2{
+	font-size:1em;
+	color: $dark-gray;
+}
+
+h2 .success{
+	color: $success-color;
+	font-weight: 600;
+}
+
+h2 .alert{
+	color: $alert-color;
+	font-weight: 600;
+}
+
+.bookable_p{
+	margin:10px 0;
+}
+
+.bookable_description{
+	margin: 50px 0;
+	color: $dark-gray !important;
+}
+
+.bookable_description table td.dark{
+	background-color: $dark-gray !important;
+	border-color: $side-bar-lines !important;
+	color: $white;
+}
+
+.bookable_instructor_bio{
+	font-size: .8em;
+	margin-bottom: 30px;
+}
+
+.bookable_times{
+	color: $dark-gray !important;
+	font-size: .8em;
+}
+
+.bookable_description_copy{
+	font-size: .8em;
+	margin-bottom: 30px;
+	color: $dark-gray !important;
+}
+
+/* Bookable Modals */
+
+#exampleModal1, #exampleModal2, #exampleModal3, #stripeModal, #stripeModalPoints{
+	background-color: $dark-gray !important;
+	color: $white !important;
+}
+
+#exampleModal1 table tr:nth-child(even) {
+	background: $dark-gray;
+}
+
+#exampleModal1 table tr:nth-child(odd) {
+	background: $side-bar-lines;
+}
+
+#exampleModal1 table{
+	border: 1px solid $side-bar-lines;
+}
+
+.bookable-modal-total{
+	color: $success; 
+	font-size: 1.5em !important; 
+}
+
+#exampleModal3 .success{
+	color: $success;
+}
+
+.close-button{
+	color: $white;
+}
+
+.booking-details-container{
+	padding:20px;
+	background-color:$white;
+	border-radius:10px;
+	margin: 20px 0;
+}
+
+/* Locations */
+
+.location-enqury-form{
+	padding:20px;
+	color: $white;
+}
+
+.location-enqury-form input[type="text"], .location-enqury-form textarea{
+	color: $dark-gray;
+	font-size: 0.9em;
+}
+
+.location-operating-hours{
+	font-size: 0.8em;
+}
+
+/* Instructors */
+
+.instructor-profile-image{
+	margin-bottom:15px;	
+}
+
+.instuctor-item{
+	border-bottom: 1px solid $light-gray;
+	margin-bottom:15px;
+	padding-bottom:15px;
+}
+
+.location-item-title{
+	font-weight:600;
+	color: $success;
+}
+
+.location-item-description{
+	font-size:0.9em;
+	color: $dark-gray;
+}
+
+.location-item-description ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin-top: 15px;
+}
+.location-item-description li {
+  padding-left: 1.3em !important;
+}
+.location-item-description li:before {
+  content: "\f067 " !important; /* FontAwesome Unicode */
+  font-family: FontAwesome !important;
+  display: inline-block !important;
+  margin-left: -1.3em !important; /* same as padding-left set on li */
+  width: 1.3em !important; /* same as padding-left set on li */
+  color: $success !important;
+}
+
+.slider {
+    position: relative;
+    height: 0.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 2.25rem;
+    background-color: $dark-gray !important;
+    cursor: pointer;
+    user-select: none;
+    touch-action: none;
+    border-radius: 5px;
+}
+
+.slider-handle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 1;
+    display: inline-block;
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    border-radius: 50% !important; 
+    background-color: $success !important;
+    transition: all 0.2s ease-in-out;
+    touch-action: manipulation;
+}
+
+.slider-dollar{
+	color: #fff;
+	font-size: 0.8em;
+	font-weight: 600;
+
+}
+
+#sliderOutputNonLinear1, #sliderOutputNonLinear2{
+	background-color: rgba(0,0,0,0);
+	color: #fff;
+	font-size: 0.8em;
+	font-weight: 600;
+	text-align:center;
+	width: 2.4rem;
+    height: 2.4rem;
+    border:none;
+    outline: none;
+    shadow: none;
+    border:none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    float: left;
+}
+
+#sliderOutputNonLinear1, #sliderOutputNonLinear2
+{ cursor: pointer !important; }
+
+#sliderOutputNonLinear1:focus, #sliderOutputNonLinear2:focus  {
+  outline-color: transparent;
+  outline-style: none;
+  border:none;
+    background-image:none;
+    background-color:transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.flatpickr input:disabled, .flatpickr input[readonly]{
+	background-color: $white !important;
+}
+
+/* Search Box */
+
+.search_box{
+	padding:30px;
+	background-color: $white;
+	font-size:0.8em;
+}
+
+.search_box input[type='checkbox']{
+	display:none
+}
+
+@mixin colored-switches ($switch-background-active) {
+  input:checked ~ .switch-paddle {
+    background: $switch-background-active;
+  }
+}
+
+.switch {
+  &,
+
+  &.success {
+    @include colored-switches($success-color)
+  }
+
+}
+
+.switch input ~ .switch-paddle, .switch.success input ~ .switch-paddle {
+    border-radius: 20px;
+}
+
+.switch-paddle::after{
+	border-radius: 50% !important;
+}
+
+/* Simple Calendars */
+
+.simple-calendar th{
+	background-color: $dark-gray;
+	color: $white;
+	text-align: center;
+	padding: 0;
+	height: auto;
+}
+
+.simple-calendar thead tr{
+	height: 0 !important;
+}
+
+td.day{
+	height:80px !important;
+	border-right: 1px solid #e5e5e5;
+	padding: 0 !important;
+	vertical-align: top;
+	background-color: $white;
+}
+
+.simple-calendar tr{
+	height:80px !important;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.sc-container{
+	padding:5px;
+	border-bottom: 1px solid $light-gray;
+	transition: all .2s ease;
+}
+
+
+.sc-container:hover{
+	background-color:$light-gray;
+	cursor: pointer;
+}
+
+.sc-date{
+	background-color: $success;
+	padding: 5px;
+	color: $white;
+	font-size: .9em;
+}
+
+.media-object{
+	margin-bottom: 0 !important;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.calendar-title {
+	display:none;
+}
+.calendar-heading a{
+	display: block;
+	padding: 10px;
+	text-align:center;
+	width:150px;
+	background-color: $success;
+	float: left;
+	margin-right: 10px;
+	color:$white;
+	margin-bottom: 10px;
+}
+
+/* Dashboard */
+
+.dashboard-form{
+	width:100%; 
+	padding:10px;
+	background-color: #f5f5f5;
+}
+
+.dashboard-chart-graph{
+	padding:40px;
+	
+}
+
+.dashboard-form input{
+	width: 50% !important;
+	border:none !important;
+	font-size:.9em;
+	color: #aaa !important;
+}
+
+.dashboard-chart-graph h2{
+	font-size: 1em !important;
+	font-weight: 500;
+}
+
+
+.dashboard-chart-box-number-3{
+
+	background-color: $primary-color;
+	transition: all ease .5s;
+}
+
+.dashboard-chart-box-number-3:hover{
+	background-color: lighten($primary-color, 10.5%);
+}
+
+.dashboard-chart-box-number-2{
+
+	background-color: #96367E;
+	transition: all ease .5s;
+}
+
+.dashboard-chart-box-number-2:hover{
+	background-color: lighten(#96367E, 10.5%);
+}
+
+.dashboard-chart-box-number-1{
+
+	transition: all ease .5s;
+	background-color: $success;
+	color: $white !important;
+}
+
+.dashboard-chart-box-number-1:hover{
+	background-color: lighten($success, 10.5%);
+}
+
+.dashboard-chart-box h2, .dashboard-chart-box h3{
+	font-size: 1em;
+	font-weight:500;
+	color:$white;
+}
+
+.dashboard-chart-box{
+	padding:30px 0;
+}
+
+.dashboard-form input, .dashboard-form .input-group{
+	margin-right:10px;
+	margin-bottom:0 !important;
+}

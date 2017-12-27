@@ -1,0 +1,76 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <%= link_to 'Create A New Bookable', new_bookable_path, class: "button primary" %>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>Bookables</h1> 
+      <table class="hover stack">
+        <thead>
+           <tr>
+              <th>Date start</th>
+              <th>Time</th>
+              <th>Bookable type</th>
+              <th>Location</th>
+              <th>Instructor</th>
+              <th>Price</th>
+              <th>Pay cash</th>
+              <th>Pay online</th>
+              <th>Pay points</th>
+              <th colspan="3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+          <% @bookables.each do |bookable| %>
+            <tr>
+                <td><%= bookable.date_start %></td>
+                <td><%= bookable.time_start %><%= bookable.time_start_unit %> - <%= bookable.time_finish %><%= bookable.time_finish_unit %></td>
+                <td><%= bookable.bookable_type.title %></td>
+                <td><%= bookable.location.name %></td>
+                <td><%= bookable.instructor.full_name %></td>
+                <td><%= bookable.price %></td>
+                <td class="text-center">
+                  <% if bookable.pay_cash == true %>
+                    <i class="fa fa-check-square success-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% else %>
+                    <i class="fa fa-window-close alert-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if bookable.pay_online == true %>
+                    <i class="fa fa-check-square success-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% else %>
+                    <i class="fa fa-window-close alert-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if bookable.pay_points == true %>
+                    <i class="fa fa-check-square success-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% else %>
+                    <i class="fa fa-window-close alert-color" aria-hidden="true" style="font-size: 2em;"></i>
+                  <% end %>
+                </td>
+                <td>
+                  <div class="expanded button-group ">
+                    <%= link_to 'Show', bookable, class: "button success" %>
+                    <%= link_to 'Edit', edit_bookable_path(bookable), class: "button warning" %>
+                    <%= link_to 'Destroy', bookable, method: :delete, class: "button alert", data: { confirm: 'Are you sure?' } %>
+                  </div>
+                </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

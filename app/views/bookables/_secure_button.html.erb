@@ -1,0 +1,15 @@
+    <% if user_signed_in? %>
+    <% if @attending < 1 %>
+      <div>
+        <p><button data-open="exampleModal2" class="button success large expanded">WAITING LIST</button></p>
+      </div>
+    <% elsif @currently_attending.present? %>
+    You're already attending
+    <% else %>
+      <div>
+        <p><button data-open="exampleModal1" class="button success large expanded">SECURE YOUR SPOT</button></p>
+      </div>
+    <% end %>
+    <% else %>
+      <%= link_to "SIGN UP TO SECURE YOUR SPOT", new_user_registration_path, class: "button success large expanded"%>
+    <% end%>

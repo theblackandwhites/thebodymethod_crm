@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <td>Email</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.email, profile_path(user) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

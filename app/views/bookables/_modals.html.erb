@@ -1,0 +1,203 @@
+<div class="reveal" id="exampleModal1" data-reveal>
+  <h1>How would you like to pay?</h1>
+  <table style="margin-top: 15px; margin-bottom: 0;" >
+    <tr>
+      <td style="font-size: 0.8em;" class="text-left"><strong>Address</strong></td>
+      <td style="font-size: 0.8em;" class="bookable-price text-left"><%= @bookable.location.address %> <%= @bookable.location.city %>, <%= @bookable.location.country %> <%= @bookable.location.zipcode %></td>
+    </tr>
+    <tr>
+      <td style="font-size: 0.8em;" class="text-left"><strong>Date</strong></td>
+      <td style="font-size: 0.8em;" class="bookable-price text-left"><%= @bookable.date_start.strftime("%A %B %d") %></td>
+    </tr>
+    <tr>
+      <td style="font-size: 0.8em;" class="text-left"><strong>Time</strong></td>
+      <td style="font-size: 0.8em;" class="bookable-price text-left"><%= @bookable.time_start %><%= @bookable.time_start_unit %> - <%= @bookable.time_finish %><%= @bookable.time_finish_unit %></td>
+    </tr>
+  </table>
+
+  <div class="bookable-modal-total" style="font-size: 1em; font-weight: 600; margin: 20px 0;" ><strong>TOTAL</strong> <%= number_to_currency(@bookable.price, precission: 0) %></div>
+
+
+  <% if @bookable.pay_online? && user_signed_in? %>
+    <button class="button" data-open="stripeModal">PAY ONLINE</button>
+  <% end %>
+  <% if @bookable.pay_cash? && !@user.pay_online_only? && user_signed_in? %>
+    <%= link_to "PAY CASH ON ARRIVAL", bookable_confirm_booking_path(@bookable, :pm => "cash"), class: "button" %>
+  <% end %>
+  <% if @bookable.pay_points? %>
+    <% if @points.present? && @points.number_of_points > 0 %>
+      <button class="button" data-open="exampleModal3">PAY WITH YOUR POINTS</button>
+    <% end %>
+  <% end %>
+
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="reveal" id="exampleModal2" data-reveal>
+  <div class="text-center">
+    <h4>Would you like to be added to the waitlist for this class?</h4>
+    <p>If somebody decides to cancel,<br /> we'll send you an email, <br />notifying you of the vacancy.</p>
+  </div>
+  <div class="text-center" style="margin-top: 20px;">
+    <%= link_to "Join Wait List", bookable_add_to_waitlist_path(@bookable), class: "button extend" %>
+  </div>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<% if @points.present? %>
+  <div class="reveal" id="exampleModal3" data-reveal>
+    <h1>Pay with your points</h1>
+    <p>Please note, points are not refundable. If you choose to cancel later on you will lose your points.</p>
+    <span class="success">You have <%= @points.number_of_points %></span><br />
+    Cost of this booking: <span class="success"><%= @bookable.price.ceil %> points</span><br />
+    <% if @points.number_of_points > @bookable.price.ceil && @points.number_of_points > 0 %>
+      <%= link_to "PAY WITH YOUR POINTS", bookable_pay_with_points_path(@bookable, :pm => "points"), class: "button" %>
+    <% else %>
+      <p>You can pay by using all of your points + an extra <span class="success"><%= number_to_currency(@bookable.price - @points.number_of_points) %></span> </p>
+      <button class="button" data-open="stripeModalPoints">PAY THE REST NOW ON CARD</button>
+      <% if @bookable.pay_cash? && @user.pay_online_only == false %>
+        <%= link_to "PAY THE REST IN CASH ON ARRIVAL", bookable_pay_with_points_path(@bookable, :pm => "points-and-cash"), class: "button" %>
+      <% end %>
+    <% end %>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>
+
+<div class="reveal" id="stripeModal" data-reveal>
+  <h2>Pay using your credit or debt card</h2>
+  <small><i>NOTE: Online payments incure a $1 surcharge.</i></small></p>
+  <button class="close-button" data-close aria-label="Close reveal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <% if @user.stripe_customer_id? && @last_charge.present? && user_signed_in? %>
+    Would you like to pay with the card you used last time? <br />
+    <% if @last_charge.card_brand == "Visa" %>
+      <i class="fa fa-cc-visa" aria-hidden="true" style="font-size: 1.2em;"></i>
+    <% elsif @last_charge.card_brand == "MasterCard" %>
+      <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
+    <% elsif @last_charge.card_brand == "American Express" %>
+      <i class="fa fa-cc-amex" aria-hidden="true"></i>  
+    <% elsif @last_charge.card_brand == "Discover" %>
+      <i class="fa fa-cc-discover" aria-hidden="true"></i>
+    <% elsif @last_charge.card_brand == "JCB" %>
+      <i class="fa fa-cc-jcb" aria-hidden="true"></i>
+    <% elsif @last_charge.card_brand == "Diners Club" %>
+      <i class="fa fa-cc-diners-club" aria-hidden="true"></i>
+    <% else %>
+      <i class="fa fa-credit-card" aria-hidden="true"></i>
+    <% end %>
+
+    &nbsp;&nbsp;&nbsp;XXXX XXXX XXXX <%= @last_charge.card_last4 %>&nbsp;&nbsp;&nbsp;<%= @last_charge.card_exp_month %> / <%= @last_charge.card_exp_year %>
+    <div class="grid-x" style="margin-top: 30px;">
+      <div class="cell small-12 medium-5">
+        <%= link_to "INSTANT PAY", bookable_create_charge_path(@bookable), class: "button large" %>
+      </div>
+      <div class="cell small-12 medium-2" style="padding-top: 20px;">OR</div>
+      <div class="cell small-12 medium-5" style="padding-top: 10px;">
+        <form action=<%= bookable_create_customer_path(@bookable) %> method="GET">
+          <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_pgjXdb0iF1FibeSRlx8qsXBv"
+            data-amount= <%= (@bookable.price * 100).floor + 100 %>
+            data-email= <%= @user.email %>
+            data-name= <%= @bookable.bookable_type.title %>
+            data-description= <%= @bookable.location.name %>
+            data-locale="auto"
+            data-zip-code="false"
+            data-label="PAY WITH A NEW CARD"
+            data-currency="aud">
+          </script>
+        </form>
+      </div>
+    </div>
+  <% else %>
+    <div style="margin-top: 30px;">
+      <form action=<%= bookable_create_customer_path(@bookable) %> method="GET">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_pgjXdb0iF1FibeSRlx8qsXBv"
+          data-amount= <%= (@bookable.price * 100).floor + 100 %>
+          <% if @user.email? %> data-email= <%= @user.email %> <% end %>
+          data-name= <%= @bookable.bookable_type.title %>
+          data-description= <%= @bookable.location.name %>
+          data-locale="auto"
+          data-zip-code="false"
+          data-label="PAY NOW"
+          data-currency="aud">
+        </script>
+      </form>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="reveal" id="stripeModalPoints" data-reveal>
+  <% @price = @bookable.price - @points.number_of_points %>
+  <h2>Pay with <%= @points.number_of_points %> points + <%= number_to_currency(@price) %></h2>
+  <button class="close-button" data-close aria-label="Close reveal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <% if user_signed_in? %>
+    
+    <% if @last_charge.present?  %>
+      <% if @last_charge.card_last4.present? && @last_charge.card_brand.present? %>
+        Would you like to pay with the card you used last time? <br />
+          <% if @last_charge.card_brand == "Visa" %>
+            <i class="fa fa-cc-visa" aria-hidden="true" style="font-size: 1.2em;"></i>
+          <% elsif @last_charge.card_brand == "MasterCard" %>
+            <i class="fa fa-cc-mastercard" aria-hidden="true"></i>
+          <% elsif @last_charge.card_brand == "American Express" %>
+            <i class="fa fa-cc-amex" aria-hidden="true"></i>  
+          <% elsif @last_charge.card_brand == "Discover" %>
+            <i class="fa fa-cc-discover" aria-hidden="true"></i>
+          <% elsif @last_charge.card_brand == "JCB" %>
+            <i class="fa fa-cc-jcb" aria-hidden="true"></i>
+          <% elsif @last_charge.card_brand == "Diners Club" %>
+            <i class="fa fa-cc-diners-club" aria-hidden="true"></i>
+          <% else %>
+            <i class="fa fa-credit-card" aria-hidden="true"></i>
+          <% end %>
+          &nbsp;&nbsp;&nbsp;XXXX XXXX XXXX <%= @last_charge.card_last4 %>&nbsp;&nbsp;&nbsp;<%= @last_charge.card_exp_month %> / <%= @last_charge.card_exp_year %><br />
+        <% end %>
+      <% end %>
+      <div class="grid-x" style="margin-top: 30px;">
+        <% if @last_charge.present? %>
+          <% if @last_charge.card_last4.present? && @last_charge.card_brand.present? %>
+            <div class="cell small-12 medium-5">
+              <%= link_to "INSTANT PAY", bookable_create_charge_points_path(@bookable), class: "button large" %>
+            </div>
+            <div class="cell small-12 medium-2" style="padding-top: 20px;">
+              OR
+            </div>
+          <% end %>
+        <% end %>
+        <div class="cell small-12 medium-5" style="padding-top: 10px;">
+          <!-- STRIPE FORM -->
+          <form action=<%= bookable_create_customer_points_path(@bookable,:pm => "points-and-online") %> method="GET">
+            <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="pk_test_pgjXdb0iF1FibeSRlx8qsXBv"
+              data-amount= <%= (@price * 100).floor %>
+              data-email= <%= @user.email %>
+              data-name= <%= @bookable.bookable_type.title %>
+              data-description= <%= @bookable.location.name %>
+              data-locale="auto"
+              data-zip-code="false"
+              data-label="Pay with new card"
+              data-currency="aud">
+            </script>
+          </form>
+        </div>
+      </div>
+    
+  <% end %>
+</div>
+

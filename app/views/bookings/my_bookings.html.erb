@@ -1,0 +1,55 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>My Bookings</h1> 
+      <table>
+      	<thead>
+      		<th>Booking</th>
+      		<th>Date Start</th>
+      		<th>Time Start</th>
+      		<th>Instructor</th>
+      		<th>Location</th>
+      		<th>Price</th>
+      		<th>Payment Method</th>
+      		<th>View Booking</th>
+      		<th>View Charge</th>
+      	</thead>
+
+      <% @bookings.each do |booking| %>
+
+      	<tr>
+      		<td><%= booking.bookable.bookable_type.title %></td>
+      		<td><%= booking.bookable.date_start.strftime("%d/%m/%Y") %></td>
+      		<td><%= booking.bookable.time_start %><%= booking.bookable.time_start_unit %></td>
+      		<td><%= booking.bookable.instructor.full_name %></td>
+      		<td><%= booking.bookable.location.name %></td>
+      		<td><%= number_to_currency(booking.bookable.price) %></td>
+      		<td><%= booking.payment_method %></td>
+      		<td><%= link_to "View Booking", bookable_path(booking.bookable.id), class: "button" %></td>
+      		<td>
+      			<% if booking.charge.present? %>
+      				<%= link_to "View Charge", my_charges_path(:bookable => booking.bookable.id), class: "button" %>
+      			<% end %>
+      		</td>
+      		<!-- Show cancel only if the bookable is in the future -->
+      		<td>
+      			<% if booking.checked_in == false %>
+      				<%= link_to "Cancel", bookable_cancel_booking_path(booking.bookable.id, :part => booking.id), class: "button alert" %>
+      			<% end %>
+      		</td>
+      	</tr>
+      <% end %>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<h1>Editing Debt</h1>
+
+<%= form_for(@debt) do |f| %>
+  <% if @debt.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@debt.errors.count, "error") %> prohibited this debt from being saved:</h2>
+
+      <ul>
+      <% @debt.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :bookable_id %>
+    <%= f.text_field :bookable_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.text_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :participant_id %>
+    <%= f.text_field :participant_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.text_field :amount %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+
+<%= link_to 'Show', @debt %> |
+<%= link_to 'Back', debts_path %>

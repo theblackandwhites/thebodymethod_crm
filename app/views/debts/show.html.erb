@@ -1,0 +1,36 @@
+
+<p>
+  <strong>User:</strong>
+  <%= @debt.user.email %>
+</p>
+
+<p>
+  <strong>Bookable:</strong>
+  <%= @debt.bookable.bookable_type.title %>
+</p>
+
+<p>
+  <strong>Participant:</strong>
+  <%= @debt.participant %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @debt.amount %>
+</p>
+
+
+<form action="<%= debt_pay_debt_path(@debt.id) %>" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_pgjXdb0iF1FibeSRlx8qsXBv"
+    data-amount="<%= @debt.amount * 100 + 100 %>"
+    data-name="The Body Method"
+    data-email="<%= current_user.email %>"
+    data-description="Pay off your debt"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto"
+    data-zip-code="false"
+    data-currency="aud">
+  </script>
+</form>

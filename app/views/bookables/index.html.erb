@@ -1,0 +1,123 @@
+<div class="grid-x gray-bg">
+
+  <div class="cell small-12 medium-5 large-2">
+  		<div class="search_box">
+  			<h3><i class="fa fa-search" aria-hidden="true"></i> Find your bookables faster</h3><br>
+	    	<%= search_form_for @search do |f| %>
+	    		<div class="grid-x">
+	    			<div class="cell small-4">Booking type</div>
+	    			<div class="cell small-8"><%= f.collection_select :bookable_type_title_cont, BookableType.all, :title, :title, prompt: true %></div>
+	    		</div>
+
+				<div class="grid-x">
+	    			<div class="cell small-4">Bookings from</div>
+	    			<div class="cell small-8">
+	    				<p class="flatpickr input-group" data-wrap="true" data-clickOpens="false">
+	    					<%= f.text_field :date_start_gteq, class: "flatpickr", placeholder: "", value: "" %>
+	    					<a class="input-btn" data-toggle><i class="icon-calendar"></i></a>
+	    					<a class="input-btn" data-clear><i class="icon-close"></i></a>
+	    				</p>
+	    			</div>
+	    		</div>
+
+	    		<div class="grid-x">
+	    			<div class="cell small-4">Booking time</div>
+
+	    			<div class="cell small-8">
+	    				<%= f.select :time_start_unit_cont, options_for_select([ "AM", "PM" ]), prompt: true %>
+	    			</div>
+	    		</div>
+				<hr>
+	    		<div class="grid-x">
+	    			<div class="cell small-12">Search by price range ($)</div>
+	    			<div class="cell small-12">
+	    				<div class="slider" data-slider data-initial-start="0" data-step="1" data-position-value-function="log" data-non-linear-base="5" data-initial-end="<%= @most_expensive.price.ceil %>" data-end="<%= @most_expensive.price.ceil %>">
+	    				  <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutputNonLinear1">
+	    				  	<%= f.text_field :price_gteq, id: "sliderOutputNonLinear1", readonly: true %>
+	    				  </span>
+	    				  <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutputNonLinear2">
+	    				  	<%= f.text_field :price_lteq, id: "sliderOutputNonLinear2", readonly: true %>
+	    				  </span>
+	    				</div>
+	    			</div>
+	    		</div>
+
+				<div class="grid-x">
+	    			<div class="cell small-4">Accepts Cash?</div>
+	    			<div class="cell small-8">
+	    				
+	    				<div class="switch success">
+	    				  <%= f.check_box :pay_cash_true, id: "successSwitch", checked: true %>
+	    				  <label class="switch-paddle" for="successSwitch">
+	    				    <span class="show-for-sr">Success Switch</span>
+	    				  </label>
+	    				</div>
+
+	    			</div>
+	    		</div>
+	    		<div class="grid-x">
+	    			<div class="cell small-4">Online Payment?</div>
+	    			<div class="cell small-8">
+	    				<div class="switch success">
+	    				  <%= f.check_box :pay_online_true, id: "successSwitch2", checked: true %>
+	    				  <label class="switch-paddle" for="successSwitch2">
+	    				    <span class="show-for-sr">Success Switch</span>
+	    				  </label>
+	    				</div>		
+	    			</div>
+	    		</div>
+	    		<div class="grid-x">
+	    			<div class="cell small-4">Pay With Points?</div>
+	    			<div class="cell small-8">
+	    				<div class="switch success">
+	    				  <%= f.check_box :pay_points_true, id: "successSwitch3", checked: true %>
+	    				  <label class="switch-paddle" for="successSwitch3">
+	    				    <span class="show-for-sr">Success Switch</span>
+	    				  </label>
+	    				</div>		
+	    			</div>
+	    		</div>
+				<hr>
+	    		<div class="actions">
+	    			<%= f.submit "Search Bookables", class: "button success large" %>
+	    		</div>
+	    	<% end %>
+    	</div>
+  </div>
+  <div class="cell small-12 medium-7 large-10">
+
+  	<div class="sc" style="padding: 15px;">
+  		<%= month_calendar events: @bookables do |day, bookables| %>
+  		    <div class="sc-date">
+  		    	<%= day.strftime("%d") %> <%= day.strftime("%b") %>
+  		    	<span style="float: right; font-size: .6em; padding-top: 5px;"><%= link_to "VIEW ALL", root_path, style: "color: #fff; text-decoration:underline;" %></span>
+  		    </div>
+  		    
+  		    <% bookables.each do |bookable| %> 
+				<div class="sc-container"> 
+  		        <h4 style="font-weight: 500; font-size:.8em;"><%= link_to bookable.bookable_type.title, bookable_path(bookable.id) %></h4>
+  		        <p style="font-size: .6em;  line-height: 0"><%= bookable.time_start %><%= bookable.time_start_unit %> - <%= bookable.time_finish %><%= bookable.time_finish_unit %> </p>
+  		        <%= link_to "BOOK NOW", bookable_path(bookable.id), class: "button primary small", style:"border-radius:50px; font-size: 0.7em; padding:5px;" %>
+  		  
+				</div>
+  		    <% end %> 
+  		    
+  		<% end %> 
+  	</div>
+    
+    <div class="grid-x grid-padding-x">
+      
+      <%= render 'bookables/bookable_card' %>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+	flatpickr('#q_date_start_gteq', { 
+		dateFormat: 'd M Y',
+		defaultDate: "<%= @today_date.strftime("%d %b %Y") %>"
+	});
+</script>
+

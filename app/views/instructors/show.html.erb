@@ -1,0 +1,52 @@
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 medium-12 large-3">
+    <div class="instructor-profile-image">
+      <% if @instructor.avatar? %>
+        <%= cl_image_tag(@instructor.avatar.path, { size: '1000x1000', crop: :thumb, gravity: :face }) %>
+      <% end %>
+    </div>
+    <div class="instructor-profile-name">
+      <h2><%= @instructor.full_name %></h2>
+    </div>
+
+    <div class="instructor-rating">
+      <!-- Rating Goes Here -->
+    </div>
+
+    <div class="instuctor-item">
+      <div class="location-item-title"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Born</div>
+      <div class="location-item-description"><%= @instructor.dob.strftime("%Y") %></div>
+    </div>
+
+    <div class="instuctor-item">
+      <div class="location-item-title"><i class="fa fa-map-marker" aria-hidden="true"></i> State</div>
+      <div class="location-item-description"><%= @instructor.state %></div>
+    </div>
+
+    <div class="instuctor-item">
+      <div class="location-item-title"><i class="fa fa-id-badge" aria-hidden="true"></i> Bio</div>
+      <div class="location-item-description"><%= @instructor.bio %></div>
+    </div>
+
+    <div class="instuctor-item">
+      <div class="location-item-description">Send a message</div>
+    </div>
+
+    <div class="">
+      <div class="location-item-title"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Qualifications</div>
+      <div class="location-item-description">
+        <ul>
+          <% @qualifications.each do |qualification| %>
+            <li><%= qualification.title %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="cell small-12 medium-12 large-9 gray-bg" style="padding: 30px;">
+    <div class="grid-x grid-padding-x">
+      <%= render 'bookables/bookable_card' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Enquries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Full name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Message</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @enquries.each do |enqury| %>
+      <tr>
+        <td><%= enqury.full_name %></td>
+        <td><%= enqury.email %></td>
+        <td><%= enqury.phone %></td>
+        <td><%= enqury.message %></td>
+        <td><%= link_to 'Show', enqury %></td>
+        <td><%= link_to 'Edit', edit_enqury_path(enqury) %></td>
+        <td><%= link_to 'Destroy', enqury, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Enqury', new_enqury_path %>

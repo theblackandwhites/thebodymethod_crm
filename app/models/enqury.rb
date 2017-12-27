@@ -1,0 +1,2 @@
+class Enqury < ApplicationRecord
+end

@@ -1,0 +1,162 @@
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 large-7 bookable_title">
+    <h1><%= @bookable.bookable_type.title %></h1>
+    <h2><i class="fa fa-calendar-o" aria-hidden="true"></i> <%= @bookable.date_start.strftime("%A %B %d") %> at <%= @bookable.time_start %><%= @bookable.time_start_unit %> - <%= @bookable.time_finish %><%= @bookable.time_finish_unit %>
+      <% if (@bookable.attendee_count - @participants.count) > 0 %>
+        <span class="success">BE QUICK! <%= @bookable.attendee_count - @participants.count %> SPOTS LEFT</span>
+      <% else %>
+        <span class="alert">0 SPOTS LEFT</span>
+      <% end %>
+    </h2>
+  </div>
+  <div class="cell small-12 large-3 bookable_title text-right">
+   <%= render 'bookables/secure_button' %>
+  </div>
+</div>
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 medium-12 large-7">
+    <div class="orbit" role="region" aria-label="Booking Pictures" data-orbit data-timer-delay="2000" >
+      <div class="orbit-wrapper">
+        <div class="orbit-controls">
+          <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+          <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+        </div>
+        <ul class="orbit-container">
+          <% @bookable.location.photos.each do |photo| %>
+            <li class="is-active orbit-slide">
+              <figure class="orbit-figure">
+                <%= cl_image_tag(photo.path, { size: '1450x1050', crop: :thumb, :class => "orbit-image" }) %>
+              </figure>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-12 medium-8 large-8 bookable_description">
+        <div class="bookable_times">
+          <strong>Where: </strong><%= @bookable.location.address %> <%= @bookable.location.city %>, <%= @bookable.location.country %> <%= @bookable.location.zipcode %><br />
+          <strong>When: </strong><%= @bookable.date_start.strftime("%A %B %d") %> at <%= @bookable.time_start %><%= @bookable.time_start_unit %> - <%= @bookable.time_finish %><%= @bookable.time_finish_unit %>
+        </div>
+        <div style="margin-top: 30px;"><%= @bookable.bookable_type.description %></div> 
+      </div>
+      <div class="cell small-12 medium-4 large-4 bookable_description text-center ">
+        
+          <div class="bookable_payment_options_dark">
+            <div class="float-left" style="margin-top: 10px;">
+              PAYMENT OPTIONS
+            </div>
+            <div class="float-right">
+              <% if @bookable.pay_cash == true %>
+              <i class="fa fa-money has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay with cash."></i>
+              <% end %>
+              
+              <% if @bookable.pay_online == true %>
+              <i class="fa fa-cc-visa has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay online."></i>
+              <% end %>
+              
+              <% if @bookable.pay_points == true %>
+              <i class="fa fa-gift has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay with points."></i> 
+              <% end %>
+            </div>
+          </div>
+          <br />
+          <table style="margin-bottom: 0; margin-top: 15px;">
+            <tr>
+              <td style="font-size: 0.8em;" class="text-left"><strong>Address</strong></td>
+              <td style="font-size: 0.8em;" class="bookable-price text-left"><%= link_to @bookable.location.name, location_path(@bookable.location) %></td>
+            </tr>
+            <tr>
+              <td style="font-size: 0.8em;" class="text-left"><strong>Date</strong></td>
+              <td style="font-size: 0.8em;" class="bookable-price text-left"><%= @bookable.date_start.strftime("%A %B %d") %></td>
+            </tr>
+            <tr>
+              <td style="font-size: 0.8em;" class="text-left"><strong>Time</strong></td>
+              <td style="font-size: 0.8em;" class="bookable-price text-left"><%= @bookable.time_start %><%= @bookable.time_start_unit %> - <%= @bookable.time_finish %><%= @bookable.time_finish_unit %></td>
+            </tr>
+            <tr>
+              <td class="text-left dark"><strong>Total</strong></td>
+              <td class="bookable-price text-left dark"><%= number_to_currency(@bookable.price, precission: 0) %></td>
+            </tr>
+          </table>
+          <%= render 'bookables/secure_button' %>
+
+          <% if @bookable.pay_cash? && !@user.pay_online_only? %>
+            <div class="text-center"><img src="http://www.justinhart.biz/wp-content/uploads/2017/08/stripe_secure.png" width="60%" /></div>
+          <% end %>
+
+      </div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-12 medium-4 large-4">
+        <% if @bookable.location.featured_image? %>
+          <%= cl_image_tag(@bookable.location.featured_image.path, { size: '600x450', crop: :thumb, gravity: :face }) %>
+        <% end %>
+      </div>
+      <div class="cell small-12 medium-8 large-8">
+        <h3><i class="fa fa-map-marker" aria-hidden="true"></i> <%= link_to @bookable.location.name, location_path(@bookable.location) %></h3>
+        <div class="bookable_description_copy">
+          <table>
+            <tr>
+              <td><strong>Address</strong></td>
+              <td><%= @bookable.location.address %> <%= @bookable.location.city %>, <%= @bookable.location.country %> <%= @bookable.location.zipcode %></td>
+            </tr>
+            <tr>
+              <td><strong>Phone Number</strong></td>
+              <td><%= @bookable.location.phone_number %></td>
+            </tr>
+            <tr>
+              <td><strong>Email</strong></td>
+              <td><%= link_to @bookable.location.email_address, "mailto:#{@bookable.location.email_address}" %></td>
+            </tr>
+          </table>
+          <button class="button" data-open="mapmodal">View <%= @bookable.location.name %> on a map</button>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" id="mapmodal" data-reveal>
+      <h1>Awesome. I Have It.</h1>
+      <p class="lead">Your couch. It is mine.</p>
+      <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+      <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+
+  </div>
+  <div class="cell small-12 medium-12 large-3">
+    
+    <% if @bookable.instructor.avatar? %>
+      <%= cl_image_tag(@bookable.instructor.avatar.path, { size: '600x450', crop: :thumb, gravity: :face }) %>
+    <% end %>
+    <h3 style="margin-top: 30px;">
+      Instructed by <%= link_to @bookable.instructor.full_name, instructor_path(@bookable.instructor) %>
+    </h3>
+    <div class="bookable_instructor_bio"><%= @bookable.instructor.bio %></div>
+
+    <table>
+      <thead>
+        <th><%= @bookable.instructor.full_name.pluralize(2) %> Qualifications</th>
+      </thead>
+      <% @qualifications.each do |qualification| %>
+        <tr>
+          <td><%= qualification.title %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <%= link_to "View all other bookables by #{@bookable.instructor.full_name}", bookables_path, class: "button primary small" %>
+
+  </div>
+</div>
+
+
+<%= render 'bookables/modals' %>
+
+
+
+

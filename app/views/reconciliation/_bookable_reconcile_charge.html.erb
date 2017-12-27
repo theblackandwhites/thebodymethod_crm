@@ -1,0 +1,45 @@
+<h2><%= day.strftime('%A %d %B %Y') %> </h2>
+		    <div class="bookable">
+		      <strong><%= charge.bookable.bookable_type.title %></strong> with <strong><%= charge.bookable.instructor.full_name %></strong> at <strong><%= charge.bookable.time_start %><%= charge.bookable.time_start_unit %></strong>
+		    </div>
+		    <% @charges = Charge.where(bookable_id: charge.bookable.id).all %>
+		    <% @daily_turnover = @charges.sum(:amount) %>
+		    <% @pending_charges = Charge.where(bookable_id: charge.bookable.id).where(status: "pending").all %>
+		    <!-- Online Payments -->
+		    <% @online_payments = Charge.where(bookable_id: charge.bookable.id).where.not(stripe_id: nil).all %>
+		    <% @online_charges = @online_payments.sum(:amount) %>
+		    <!-- Cash Payments -->
+		    <% @cash_payments = Charge.where(points: nil).where(stripe_id: nil) %>
+		    <% @cash_charges = @cash_payments.sum(:amount) %>
+			<!-- Points Payments -->
+		    <% @points_payments = Charge.where.not(points: nil).all %>
+		    <% @points_charges = @points_payments.sum(:amount) %>
+		    <!-- Payment Plans -->
+		    <% @plan_payments = Charge.where("strftime('%m/%d', created_at) = ?", day.strftime('%m/%d')).where(packages_payment: true).all %>
+		    <% @plan_charges = @plan_payments.sum(:amount) %>
+		    <!-- Debts Owed -->
+			<% @debts_owed = Debt.where("strftime('%m/%d', created_at) = ?", day.strftime('%m/%d')).all %>
+			<% @debt_charges = @debts_owed.sum(:amount) %>
+			<!-- Debts Paid -->
+			<% @debts_paid = Charge.where("strftime('%m/%d', created_at) = ?", day.strftime('%m/%d')).where(debt_payment: true).all %>
+			<% @debt_paid_charges = @debts_paid.sum(:amount) %>
+			<!-- Extra Income -->
+			
+			<div>
+				<strong>Turover today:</strong> <%= number_to_currency(@daily_turnover) %> 
+				<% if @plan_charges.chomp.to_i > 0 %>
+					PLUS <%= number_to_currency(@plan_charges) %> <strong>in package payments</strong>
+				<% end %>
+				<br />
+				<strong>Debts owed:</strong> <%= number_to_currency(@debt_charges) %> <br />
+				<strong>Debts paid:</strong> <%= number_to_currency(@debt_paid_charges) %> <br />
+				Which is made up of the following payments<br>
+				<strong>Online payments:</strong> <%= number_to_currency(@online_charges) %><br />
+				<strong>Cash payments:</strong> <%= number_to_currency(@cash_charges) %><br />
+				<strong>Points payments:</strong> <%= @points_charges %> points used which is equivilant to <%= number_to_currency(@points_charges) %><br />
+
+		    	<%= link_to "View Participants", bookable_participants_path(:key => charge.bookable.id), class: "button success" %>
+		  	</div>
+		    <div>
+		    	<%= link_to "Reconcile #{day.strftime('%B %d %Y')}", reconcile_bookable_path(:key => charge.bookable.id), class: "button" %>
+		  	</div>

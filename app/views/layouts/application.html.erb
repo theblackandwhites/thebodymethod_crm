@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "The Body Method" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= cloudinary_js_config %>
+    <%= csrf_meta_tags %>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
+    <!-- Calendar Date Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+
+  <body>
+        
+        <div class="off-canvas position-left reveal-for-large" id="offCanvasLeft" data-off-canvas data-transition="push" >
+          <%= render 'layouts/sidebar' %>
+        </div>
+
+        <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-transition="overlap">
+          <%= render 'layouts/notifications' %>
+        </div>
+
+        <div class="off-canvas-content" data-off-canvas-content>
+          <div class="grid-x">
+            <div class="small-12">
+              <%= render 'layouts/title_bar' %>
+              <%= yield %>
+            </div>
+          </div>
+          
+        </div> 
+  </body>
+</html>

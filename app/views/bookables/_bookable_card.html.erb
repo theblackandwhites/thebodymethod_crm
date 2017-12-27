@@ -1,0 +1,58 @@
+<% @bookables.each do |bookable| %>
+        <div class="cell small-12 medium-12 large-3">
+          <div class="bookable_card">
+            <div class="bookable_image">
+              <% if bookable.bookable_type.featured_image? %>
+                <%= cl_image_tag(bookable.bookable_type.featured_image.path, { size: '1450x1050', crop: :thumb, gravity: :face }) %>
+              <% end %>
+              <div class="bookable_instructor_photo">
+                <% if bookable.instructor.avatar? %>
+                  <%= cl_image_tag(bookable.instructor.avatar.path, { size: '150x150', crop: :thumb, gravity: :face }) %>
+                <% end %>
+              </div>
+              <div class="bookable-date">
+                <div class="bookable-date-1 text-center"><%= bookable.date_start.strftime("%a") %></div>
+                <div class="bookable-date-2 text-center"><%= bookable.date_start.strftime("%d") %></div>
+                <div class="bookable-date-3 text-center"><%= bookable.date_start.strftime("%b") %></div>  
+              </div>
+              <div class="bookable-time">
+                <h4><i class="fa fa-clock-o" aria-hidden="true"></i> <%= bookable.time_start %><%= bookable.time_start_unit %> - <%= bookable.time_finish %><%= bookable.time_finish_unit %></h4>
+              </div>
+            </div>
+            <div class="bookable_text">
+              <% @participants = Participant.where(bookable_id: bookable.id).all %>
+     
+              <h2><%= link_to bookable.bookable_type.title, bookable_path(bookable)  %></h2>
+              <div class="grid-x">
+                <div class="small-6"><h4><i class="fa fa-map-marker" aria-hidden="true"></i> <%= link_to bookable.location.name, location_path(bookable.location)  %></h4>
+                  <div class="bookable_payment_options">
+                    <% if bookable.pay_cash == true %>
+                    <i class="fa fa-money has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay with cash."></i>
+                    <% end %>
+                    
+                    <% if bookable.pay_online == true %>
+                    <i class="fa fa-cc-visa has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay online."></i>
+                    <% end %>
+                    
+                    <% if bookable.pay_points == true %>
+                    <i class="fa fa-gift has-tip" aria-hidden="true" style="font-size: 2em;" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Pay with points."></i> 
+                    <% end %>
+                  </div>
+                </div>
+                <div class="small-6 text-right">
+                  <% if (bookable.attendee_count - @participants.count) > 0 %>
+                    <h4 class="success"><%= bookable.attendee_count - @participants.count %> SPOTS LEFT</h4>
+                    <h5>SECURE YOUR SPOT</h5> 
+                  <% else %>
+                    <h4 class="alert">0 SPOTS LEFT</h4>
+                    <h5>ADD TO WAITING LIST</h5> 
+                  <% end %>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              
+              <div class="bookable_p"><p><%= bookable.bookable_type.description %> <%= link_to "Read More", bookable_path(bookable)  %></p></div>
+            </div>
+          </div>
+        </div>
+      <% end %>

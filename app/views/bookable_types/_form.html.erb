@@ -1,0 +1,38 @@
+<%= form_for(bookable_type) do |f| %>
+  <% if bookable_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bookable_type.errors.count, "error") %> prohibited this bookable_type from being saved:</h2>
+
+      <ul>
+      <% bookable_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <% if @bookable_type.featured_image? %>
+      <%= cl_image_tag(@bookable_type.featured_image.path, { size: '450x150', crop: :thumb, gravity: :face }) %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :featured_image %>
+    <%= f.attachinary_file_field  :featured_image, as: :attachinary %>
+  </div>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 9; %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "UPDATE", class: "button success large" %>
+  </div>
+<% end %>

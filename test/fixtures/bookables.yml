@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_start: 2017-11-20
+  time_start: MyString
+  time_start_unit: MyString
+  time_finish: MyString
+  time_finish_unit: MyString
+  bookable_type: one
+  location: one
+  instructor: one
+  price: 9.99
+  pay_cash: false
+  pay_online: false
+  pay_points: false
+
+two:
+  date_start: 2017-11-20
+  time_start: MyString
+  time_start_unit: MyString
+  time_finish: MyString
+  time_finish_unit: MyString
+  bookable_type: two
+  location: two
+  instructor: two
+  price: 9.99
+  pay_cash: false
+  pay_online: false
+  pay_points: false

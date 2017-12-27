@@ -1,0 +1,27 @@
+<h1>Participants</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Payment Method</th>
+			<th>Amount</th>
+			<th>Amount owing</th>
+			<th>Checked in?</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @participants.each do |participant| %>
+		<tr>
+			<td><%= participant.user.email %></td> 
+			<td><%= participant.payment_method %></td> 
+			<td><%= participant.charge.amount %></td>
+			<td><%= participant.charge.left_to_pay %></td> 
+			<td><%= participant.checked_in %></td>
+			<td><%= link_to "Edit Charge", edit_charge_path(:key => participant.charge_id) %></td>
+		</tr>
+	<% end %>
+	</tbody>
+	
+</table>

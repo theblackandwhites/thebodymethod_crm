@@ -1,0 +1,56 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <%= link_to 'Create A New Location', new_location_path, class: "button primary" %>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>Locations</h1> 
+      <table class="hover stack">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Zipcode</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Phone number</th>
+            <th>Email address</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @locations.each do |location| %>
+            <tr>
+              <td><%= location.name %></td>
+              <td><%= location.address %></td>
+              <td><%= location.city %></td>
+              <td><%= location.zipcode %></td>
+              <td><%= location.state %></td>
+              <td><%= location.country %></td>
+              <td><%= location.phone_number %></td>
+              <td><%= location.email_address %></td>
+              
+              <td>
+                <div class="expanded button-group ">
+                <%= link_to 'Show', location %>
+                <%= link_to 'Edit', edit_location_path(location) %>
+                <%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

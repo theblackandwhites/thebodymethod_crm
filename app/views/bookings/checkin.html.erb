@@ -1,0 +1,26 @@
+<div class="grid-x gray-bg grid-padding-x">
+  <div class="cell small-12 medium-6 large-6 medium-offset-3 align-self-middle text-center">
+  	<i class="fa fa-user-circle success" aria-hidden="true" style="font-size: 5em;"></i>
+    <h1>Checkin</h1>
+    <table>
+		<thead>
+			<th>Client</th>
+			<th>Payment Status</th>
+			<th>Checkin</th>
+		</thead>
+		<% @participants.each do |participant| %>
+		<tr>
+			<td><%= participant.user.email %></td>
+			<td><%= participant.payment_status %></td>
+			<td>
+				<% if participant.checked_in == true %>
+					<%= link_to "CHECKED IN", bookable_post_checkin_path(@bookable, :key => participant.id), class: "button disabled" %>
+				<% else %>
+					<%= link_to "CHECK IN", bookable_post_checkin_path(@bookable, :key => participant.id), class: "button success" %>
+				<% end %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <%= link_to 'Create A New Instructor', new_instructor_path, class: "button primary" %>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>Instructors</h1> 
+      <table class="hover stack">
+       <thead>
+           <tr>
+             <th>Full Name</th>
+             <th>City</th>
+             <th>Phone</th>
+             <th>Phone2</th>
+             <th>Email</th>
+             <th colspan="3"></th>
+           </tr>
+         </thead>
+
+        <tbody>
+            <% @instructors.each do |instructor| %>
+              <tr>
+                <td><%= instructor.full_name %></td>
+                <td><%= instructor.city %></td>
+                <td><%= instructor.phone %></td>
+                <td><%= instructor.phone2 %></td>
+                <td><%= instructor.email %></td>
+                <td><%= link_to 'Show', instructor %></td>
+                <td><%= link_to 'Edit', edit_instructor_path(instructor) %></td>
+                <td><%= link_to 'Destroy', instructor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>

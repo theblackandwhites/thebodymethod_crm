@@ -1,0 +1,30 @@
+<h1>Users#show</h1>
+<p>Find me in app/views/users/show.html.erb</p>
+<%= @user.email %>
+
+  <div>
+    <label for="">Allow to pay cash only</label>
+	 <%= check_box_tag 'completed', @user.id , @user.pay_online_only, :class => "task-check" %>
+
+  </div>
+
+<script>
+
+
+	$(".task-check").bind('change', function(){
+  if (this.checked){
+    $.ajax({
+      url: '/profiles/<%= @user.id %>/pay_online_only',
+      type: 'GET',
+      data: {"completed": this.checked}
+    });
+  }
+  else {
+     $.ajax({
+      url: '/profiles/<%= @user.id %>/pay_online_only',
+      type: 'GET',
+      data: {"completed": this.checked}
+    });
+  }
+});
+</script>

@@ -1,0 +1,13 @@
+
+<p>
+  <strong>Title:</strong>
+  <%= @bookable_type.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @bookable_type.description %>
+</p>
+
+<%= link_to 'Edit', edit_bookable_type_path(@bookable_type) %> |
+<%= link_to 'Back', bookable_types_path %>

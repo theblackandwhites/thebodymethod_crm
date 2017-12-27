@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  price: 9.99
+  subscription: false
+  subscription_interval_count: 1
+  subscription_interval: MyString
+  stripe_subscription_id: MyString
+
+two:
+  title: MyString
+  description: MyText
+  price: 9.99
+  subscription: false
+  subscription_interval_count: 1
+  subscription_interval: MyString
+  stripe_subscription_id: MyString

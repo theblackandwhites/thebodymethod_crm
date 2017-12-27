@@ -1,0 +1,51 @@
+<div class="grid-x">
+  <div class="cell small-12 large-3">
+    <div class="info-box">
+      
+      <div class="responsive-embed" style="margin: -25px 0;">
+        <iframe src="https://player.vimeo.com/video/132550202?title=0&byline=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <%= link_to 'Create A New Booking Type', new_bookable_type_path, class: "button primary" %>
+    </div>
+  </div>
+  <div class="cell small-12 large-9">
+    <div class="table-box">
+      <h1>Booking Types</h1> 
+      <table class="hover stack">
+        <thead>
+          <tr>
+            <th width="200">Title</th>
+            <th>Description</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @bookable_types.each do |bookable_type| %>
+            <tr>
+              <td><%= link_to bookable_type.title, edit_bookable_type_path(bookable_type) %></td>
+              <td><%= bookable_type.description %></td>
+              <td>
+                <div class="expanded button-group ">
+                  <%= link_to 'Edit', edit_bookable_type_path(bookable_type), class: "button warning" %>
+                  <%= link_to 'Destroy', bookable_type, class: "button alert", method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<br>
+
+

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  bookable: one
+  participant: one
+  amount: 9.99
+
+two:
+  user: two
+  bookable: two
+  participant: two
+  amount: 9.99

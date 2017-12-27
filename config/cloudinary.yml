@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: theblackandwhites
+  api_key: '138299534881399'
+  api_secret: rWB8A0aTMqXV9fut4dh20s8E_vw
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: theblackandwhites
+  api_key: '138299534881399'
+  api_secret: rWB8A0aTMqXV9fut4dh20s8E_vw
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: theblackandwhites
+  api_key: '138299534881399'
+  api_secret: rWB8A0aTMqXV9fut4dh20s8E_vw
+  enhance_image_tag: true
+  static_image_support: false

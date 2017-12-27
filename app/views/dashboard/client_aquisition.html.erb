@@ -1,0 +1,343 @@
+	<div class="grid-container">
+		<div class="grid-x">
+
+		  <div class="cell small-12 medium-5 large-12">
+		  	<div class="float-left"><h1>Your Dashboard</h1></div>
+			<%= link_to root_path, class: "button success float-right", style: "margin-top:10px;" do %>
+				<i class="fa fa-file-pdf-o" aria-hidden="true"></i> Export as PDF
+			<% end %>
+			<div class="clearfix"></div>
+		  	<div class="dashboard-form">
+		  		<div class="grid-x grid-padding-x">
+		  			<div class="cell small-12 medium-6 text-center">
+				  		<%= form_tag dashboard_client_aquisition_path, :method => 'get' do %>
+				  		<div class="input-group">
+			
+				  			<%= text_field_tag :search, "", class: "input-group-field", placeholder: "Date From" %>
+				  			<%= text_field_tag :search_to, "", class: "input-group-field", placeholder: "Date To" %>
+				  			<%= submit_tag "Filter By Date", class: "input-group-button button success" %>
+				  		</div>
+				  		<% end %>
+				  	</div>
+				  	<div class="cell small-12 medium-6 text-right">
+				  		 <h5 style="font-size:.8em; font-weight: 500; margin-top:10px;"><i class="fa fa-calendar" aria-hidden="true"></i> Showing from <%= @search.strftime('%d %b %Y') %> to <%= @search_to.strftime('%d %b %Y') %></h5>
+				  	</div>
+				 </div>
+		  	</div>
+		  </div>
+		</div>
+		<div class="grid-x" style="
+background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+background: linear-gradient(to bottom, #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );">
+			<div class="cell small-4 medium-3 text-center">
+				<div class="dashboard-chart-graph">
+					<h2>Booking method</h2>
+					<canvas id="bookingsChart" width="400" height="400"  ></canvas>
+				</div>
+			</div>
+			<div class="cell small-4 medium-3 text-center">
+				<div class="dashboard-chart-graph">
+					<h2>Payment status</h2>
+					<canvas id="salesChart" width="100" height="100"  ></canvas>
+				</div>
+			</div>
+			<div class="cell small-4 medium-3 text-center">
+				<div class="dashboard-chart-graph">
+					<h2>Clients vs new clients</h2>
+					<canvas id="clientsChart" width="100" height="100"  ></canvas>
+				</div>
+			</div>
+			<div class="cell small-4 medium-3 text-center">
+				<div class="dashboard-chart-box-number-1 dashboard-chart-box">
+					<h2>Turnover made</h2>
+					<h3><%= number_to_currency(@sales) %></h3>
+				</div>
+				<div class="dashboard-chart-box-number-2 dashboard-chart-box">
+					<h2>Turnover made</h2>
+					<h3><%= number_to_currency(@sales) %></h3>
+				</div>
+				<div class="dashboard-chart-box-number-3 dashboard-chart-box">
+					<h2>Turnover made</h2>
+					<h3><%= number_to_currency(@sales) %></h3>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="grid-x">
+			<div class="cell small-6">
+				<div class="dashboard-chart-graph">
+					<h2>Charges By Bookable Type</h2>
+					<canvas id="bookableTypeChart" ></canvas>
+				</div>
+			</div>
+
+			<div class="cell small-6">
+				<div class="dashboard-chart-graph">
+					<h2>Charges By Day</h2>
+					<canvas id="chargesDayChart" ></canvas>
+				</div>
+			</div>
+
+			<div class="cell small-6">
+				<div class="dashboard-chart-graph">
+					<h2>Charges By Month</h2>
+					<canvas id="chargesMonthChart" ></canvas>
+				</div>
+			</div>
+
+			<div class="cell small-6">
+				<div class="dashboard-chart-graph">
+					<h2>Charges By Year</h2>
+					<canvas id="chargesYearChart" ></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<div class="grid-container">
+
+
+
+
+</div>
+
+
+
+<script>
+
+
+var ctx_bookingsChart = document.getElementById("bookingsChart").getContext('2d');
+var ctx_salesChart = document.getElementById("salesChart").getContext('2d');
+var ctx_clientsChart = document.getElementById("clientsChart").getContext('2d');
+var ctx_bookableTypeChart = document.getElementById("bookableTypeChart").getContext('2d');
+var ctx_chargesDayChart = document.getElementById("chargesDayChart").getContext('2d');
+var ctx_chargesMonthChart = document.getElementById("chargesMonthChart").getContext('2d');
+var ctx_chargesYearChart = document.getElementById("chargesYearChart").getContext('2d');
+
+var bookingsChart = new Chart(ctx_bookingsChart, {
+    type: 'doughnut', 
+    data: {
+    	labels: ["Cash", "Online","Points","Points & Cash","Points & Online"],
+    	datasets: [{
+    		data: [
+    			<%= @booking_cash %>,
+    			<%= @booking_online %>,
+    			<%= @booking_points %>,
+    			<%= @booking_points_cash %>,
+    			<%= @booking_points_online %>
+    			
+    		],
+    		backgroundColor: [
+    			'#50bfa9',
+    			'#00b7e2',
+    			'#944e82',
+    			'#003e61',
+    			'#333333'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        }
+    }
+});
+
+var salesChart = new Chart(ctx_salesChart, {
+    type: 'doughnut', 
+    data: {
+    	labels: ["Successful", "Pending","Refunded"],
+    	datasets: [{
+    		
+    		data: [
+    			<%= @successful_sales_sum %>,
+    			<%= @pending_sales_sum %>,
+    			<%= @refunded_sales_sum %>
+    		],
+    		backgroundColor: [
+    			'#50bfa9',
+    			'#00b7e2',
+    			'#944e82'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        }
+    }
+});
+
+var clientsChart = new Chart(ctx_clientsChart, {
+    type: 'doughnut', 
+    data: {
+    	labels: ["Clients Total", "New Clients"],
+    	datasets: [{
+    		data: [
+    			<%= @clients %>,
+    			<%= @newclients %>
+    		],
+    		backgroundColor: [
+    			'#50bfa9',
+    			'#00b7e2',
+    			'#944e82'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        }
+    }
+});
+
+var bookableTypeChart = new Chart(ctx_bookableTypeChart, {
+    type: 'bar', 
+    data: {
+    	labels: [<% @charges_bookable_type.each do |charge| %>"<%= charge.bookable.bookable_type.title  %>",<% end %>],
+    	datasets: [{
+    		data: [
+    			<% @charges_bookable_type_sum.each do |charge_sum| %>
+    			    <%= charge_sum[1]  %>,
+    			<% end %>
+    		],
+    		backgroundColor: [
+    			'#50bfa9',
+    			'#00b7e2',
+    			'#944e82'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        }
+    }
+});
+
+var chargesDayChart = new Chart(ctx_chargesDayChart, {
+    type: 'line', 
+    data: {
+    	labels: [<% @charges_by_day.each do |charge| %>"<%= charge.created_at.strftime('%a %d %b %Y')  %>",<% end %>],
+    	datasets: [{
+    		data: [
+    			<% @charges_by_day_sum.each do |charge_sum| %>
+    			    <%= charge_sum[1]  %>,
+    			<% end %>
+    		],
+    		backgroundColor: [
+    			'#b6ede2'
+    		],
+    		borderColor:[
+    			'#26CFAD'
+    		],
+    		pointHoverBorderColor: [
+    			'#26CFAD'
+    		],
+    		pointHoverBackgroundColor: [
+    			'#26CFAD'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        },
+    	scales: {
+    	            xAxes: [{
+    	                stacked: true
+    	            }],
+    	            yAxes: [{
+    	                stacked: true
+    	            }]
+    	        }
+    }
+});
+
+var chargesMonthChart = new Chart(ctx_chargesMonthChart, {
+    type: 'line', 
+    data: {
+    	labels: [<% @charges_by_month.each do |charge| %>"<%= charge.created_at.strftime('%a %d %b %Y')  %>",<% end %>],
+    	datasets: [{
+    		data: [
+    			<% @charges_by_month_sum.each do |charge_sum| %>
+    			    <%= charge_sum[1]  %>,
+    			<% end %>
+    		],
+    		backgroundColor: [
+    			'#b6ede2'
+    		],
+    		borderColor:[
+    			'#26CFAD'
+    		],
+    		pointHoverBorderColor: [
+    			'#26CFAD'
+    		],
+    		pointHoverBackgroundColor: [
+    			'#26CFAD'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        },
+    	scales: {
+    	            xAxes: [{
+    	                stacked: true
+    	            }],
+    	            yAxes: [{
+    	                stacked: true
+    	            }]
+    	        }
+    }
+});
+
+var chargesYearChart = new Chart(ctx_chargesYearChart, {
+    type: 'line', 
+    data: {
+    	labels: [<% @charges_by_year.each do |charge| %>"<%= charge.created_at.strftime('%a %d %b %Y')  %>",<% end %>],
+    	datasets: [{
+    		data: [
+    			<% @charges_by_year_sum.each do |charge_sum| %>
+    			    <%= charge_sum[1]  %>,
+    			<% end %>
+    		],
+    		backgroundColor: [
+    			'#b6ede2'
+    		],
+    		borderColor:[
+    			'#26CFAD'
+    		],
+    		pointHoverBorderColor: [
+    			'#26CFAD'
+    		],
+    		pointHoverBackgroundColor: [
+    			'#26CFAD'
+    		]
+    	}]
+    },
+    options: {
+    	legend: {
+    	            display: false,
+    	        },
+    	scales: {
+    	            xAxes: [{
+    	                stacked: true
+    	            }],
+    	            yAxes: [{
+    	                stacked: true
+    	            }]
+    	        }
+    }
+});
+
+
+
+</script>

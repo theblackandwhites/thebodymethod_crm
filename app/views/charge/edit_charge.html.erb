@@ -1,0 +1,16 @@
+<%= form_for @charge, :url => update_charge_path do |f| %>
+
+
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.text_field :amount %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :id, value: params[:key] %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

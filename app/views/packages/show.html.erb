@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @package.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @package.description %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @package.price %>
+</p>
+
+<p>
+  <strong>Subscription:</strong>
+  <%= @package.subscription %>
+</p>
+
+<p>
+  <strong>Subscription interval count:</strong>
+  <%= @package.subscription_interval_count %>
+</p>
+
+<p>
+  <strong>Subscription interval:</strong>
+  <%= @package.subscription_interval %>
+</p>
+
+<p>
+  <strong>Stripe subscription:</strong>
+  <%= @package.stripe_subscription_id %>
+</p>
+
+<% if current_user.stripe_customer_id? && @last_charge.present? %>
+  Would you like to pay with the card you used last time? <br />
+  XXXX XXXX XXXX <%= @last_charge.card_last4 %> - <%= @last_charge.card_brand %> - <%= @last_charge.card_exp_month %>/<%= @last_charge.card_exp_year %><br />
+  <%= link_to "INSTANT PAY", package_subscribe_user_path(@package, :customer => true), class: "button large" %><br />
+<% end %>
+
+<!-- STRIPE FORM -->
+<form action=<%= package_subscribe_user_path(@package, :customer => false) %> method="GET">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_pgjXdb0iF1FibeSRlx8qsXBv"
+    data-amount= <%= (@package.price * 100).floor %>
+    data-email= <%= current_user.email %>
+    data-name= <%= @package.title %>
+    data-locale="auto"
+    data-zip-code="false"
+    data-label="Pay with new card"
+    data-currency="aud">
+  </script>
+</form>
+
+<%= link_to 'Edit', edit_package_path(@package) %> |
+<%= link_to 'Back', packages_path %>

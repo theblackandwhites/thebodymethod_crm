@@ -1,0 +1,17 @@
+<%= form_for @points, :url => delete_points_path do |f| %>
+
+  <div class="field">
+  	<%= f.label :user_id %>
+  	<%= f.collection_select :user_id, User.all, :id, :email, prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :number_of_points %>
+    <%= f.text_field :number_of_points %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Delete Points" %>
+  </div>
+
+<% end %>

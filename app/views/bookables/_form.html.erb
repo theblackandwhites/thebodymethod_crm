@@ -1,0 +1,101 @@
+<%= form_for(bookable) do |f| %>
+  <% if bookable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bookable.errors.count, "error") %> prohibited this bookable from being saved:</h2>
+
+      <ul>
+      <% bookable.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ 
+
+  <div class="field">
+    <%= f.label :reconciled %>
+    <%= f.hidden_field  :reconciled, value: false %>
+  </div>
+
+  
+
+  <div class="field">
+    <%= f.label :attendee_count %>
+    <%= f.text_field :attendee_count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date_start %>
+    <%= f.date_select :date_start, :start_year=>Time.current.year,:end_year=>Time.current.year + 5 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :time_start %>
+    <%= f.text_field :time_start %>
+  </div>
+
+  <div class="field">
+    <%= f.label :time_start_unit %>
+    <%= f.select :time_start_unit, options_for_select([ "AM", "PM" ], "AM") %>
+  </div>
+
+  <div class="field">
+    <%= f.label :time_finish %>
+    <%= f.text_field :time_finish %>
+  </div>
+
+  <div class="field">
+    <%= f.label :time_finish_unit %>
+    <%= f.select :time_finish_unit, options_for_select([ "AM", "PM" ], "AM") %>
+  </div>
+
+  <div class="field">
+    <%= f.label :bookable_type_id %>
+    <%= f.collection_select :bookable_type_id, BookableType.all, :id, :title, {:prompt => "Select an a booking type"} %>
+  </div>
+
+  <div class="field">
+    <%= f.label :location_id %>
+    <%= f.collection_select :location_id, Location.all, :id, :name, {:prompt => "Select a location"} %>
+  </div>
+
+  <div class="field">
+    <%= f.label :instructor_id %>
+    <%= f.collection_select :instructor_id, Instructor.all, :id, :full_name, {:prompt => "Select an instructor"} %>
+  </div>
+
+  <div class="field">
+    <%= f.label :price %>
+    <%= f.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= f.label :pay_cash %>
+    <%= f.check_box :pay_cash %>
+  </div>
+
+  <div class="field">
+    <%= f.label :pay_online %>
+    <%= f.check_box :pay_online %>
+  </div>
+
+  <div class="field">
+    <%= f.label :pay_points %>
+    <%= f.check_box :pay_points %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_time %>
+    <%= f.datetime_select :start_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :recurring %>
+    <%= f.select_recurring :recurring, nil, allow_blank: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

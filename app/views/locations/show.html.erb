@@ -1,0 +1,149 @@
+<style>
+   #map {
+    height: 400px;
+    width: 100%;
+   }
+</style>
+
+
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 large-7 bookable_title">
+    <h1><%= @location.name %></h1>
+    <h2><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @location.full_address %> </h2>
+  </div>
+  <div class="cell small-12 large-3 bookable_title text-right">
+   <%= link_to "View bookables in this location", bookables_path(:location => @location.id), class: "button success" %>
+  </div>
+</div>
+<div class="grid-x grid-padding-x">
+  <div class="cell small-12 medium-12 large-7">
+    <div class="orbit" role="region" aria-label="Location Pictures" data-orbit data-timer-delay="2000" >
+      <div class="orbit-wrapper">
+        <div class="orbit-controls">
+          <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+          <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+        </div>
+        <ul class="orbit-container">
+          <% @location.photos.each do |photo| %>
+            <li class="is-active orbit-slide">
+              <figure class="orbit-figure">
+                <%= cl_image_tag(photo.path, { size: '1450x1050', crop: :thumb, :class => "orbit-image" }) %>
+              </figure>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <div class="cell small-12 bookable_description">
+        <div><%= @location.description %></div> 
+        <div style="margin-top: 30px;">
+          <h3>View <%= @location.name %> on a map</h3>
+          <div id="map"></div>
+        </div> 
+      </div>
+    </div>
+
+
+
+  </div>
+  <div class="cell small-12 medium-12 large-3">
+    <div class="location-operating-hours">
+      <h3>Contact details for <%= @location.name %></h3>
+      <table>
+        <tr>
+          <td>Phone</td>
+          <td><%= @location.phone_number %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><button type="button" class="button" data-toggle="offCanvas">Send a message</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas>
+      <div class="location-enqury-form">
+        <h4>Send a message</h4>
+        <div class="media-object">
+          <div class="media-object-section">
+            <div class="thumbnail">
+              <% if @location.featured_image? %>
+                <%= cl_image_tag(@location.featured_image.path, { size: '50x50', crop: :thumb, gravity: :face }) %>
+              <% end %>
+            </div>
+          </div>
+          <div class="media-object-section">
+            Enter your details below, a message will be sent to the manager of <%= @location.name %>
+          </div>
+        </div>
+
+        
+        <%= form_for @enqury, :url => location_enquries_path(@location) do |f| %>
+          <div class="field" style="margin-top: 20px;">
+            <%= f.text_field :full_name, placeholder: "Full Name" %>
+            <%= f.text_field :email, placeholder: "Email" %>
+            <%= f.text_field :phone, placeholder: "Phone Number" %>
+            <%= f.text_area :message, placeholder: "Enter your message here", rows: 8; %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Send Message", class: "button" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="location-operating-hours">
+      <h3>Operating hours for <%= @location.name %></h3>
+      <table>
+          <tr>
+            <td><strong>Monday</strong></td>
+            <td><%= @location.time_monday %></td>
+          </tr>
+          <tr>
+            <td><strong>Tuesday</strong></td>
+            <td><%= @location.time_tuesday %></td>
+          </tr>
+          <tr>
+            <td><strong>Wednesday</strong></td>
+            <td><%= @location.time_wednesday %></td>
+          </tr>
+          <tr>
+            <td><strong>Thursday</strong></td>
+            <td><%= @location.time_thursday %></td>
+          </tr>
+          <tr>
+            <td><strong>Friday</strong></td>
+            <td><%= @location.time_friday %></td>
+          </tr>
+          <tr>
+            <td><strong>Saturday</strong></td>
+            <td><%= @location.time_saturday %></td>
+          </tr>
+          <tr>
+            <td><strong>Sunday</strong></td>
+            <td><%= @location.time_sunday %></td>
+          </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initMap() {
+    var marker = {lat: <%= @location.latitude %>, lng: <%= @location.longitude %>};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: marker
+    });
+    var marker = new google.maps.Marker({
+      position: marker,
+      map: map
+    });
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc55wpnJuTaMROCXOCaopAUJM_LUeHOVE&callback=initMap">
+</script>

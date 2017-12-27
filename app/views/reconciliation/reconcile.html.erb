@@ -1,0 +1,8 @@
+<% @charge_days.sort.each do |day, charges| %>
+    <% for charge in charges %>  	
+			
+			<% if charge.bookable_id.present? %>
+				<%= render 'bookable_reconcile_charge', charge_days: @charge_days, day: day, charge: charge %>
+			<% end %>
+    <% end %>
+<% end %>
