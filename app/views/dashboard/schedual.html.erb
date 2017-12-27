@@ -1,8 +1,8 @@
 <% @bookable_days.each do |day, bookables| %>
-	<h2><%= day %></h2>
-		<% bookables.each do |bookable| %>
-		<div>
-			<%= bookable.start_time.strftime("%d/%m/%y")%> <%=bookable.bookable_type.title %><br />
-		</div>
-		<% end %>
+	<h2><%= day.strftime("%A %d %B %Y") %></h2>
+	<% bookables.each do |bookable| %>
+	<div>
+		<%= bookable.start_time.strftime("%-I:%M %p")%> - <%=bookable.bookable_type.title %><br />
+	</div>
+	<% end %>
 <% end %>

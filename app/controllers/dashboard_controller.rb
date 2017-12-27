@@ -63,7 +63,7 @@ class DashboardController < ApplicationController
   end
 
   def schedual
-    @bookables = Bookable.where("start_time > ?", Date.today).order('created_at DESC').all
-    @bookable_days = @bookables.group_by_day(:start_time).all
+    @bookables = Bookable.where("start_time > ?", Date.today).order('start_time ASC').all
+    @bookable_days = @bookables.group_by{ |b| b.start_time.beginning_of_day}
   end
 end

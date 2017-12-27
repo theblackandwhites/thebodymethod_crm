@@ -17,16 +17,24 @@
   </head>
 
   <body>
-        
+        <!-- Left navigation panel -->
         <div class="off-canvas position-left reveal-for-large" id="offCanvasLeft" data-off-canvas data-transition="push" >
           <%= render 'layouts/sidebar' %>
         </div>
-
+        <!-- Notifications panel -->
         <div class="off-canvas position-right" id="offCanvasRight" data-off-canvas data-transition="overlap">
           <%= render 'layouts/notifications' %>
         </div>
-
+        <!-- Top Bar -->
         <div class="off-canvas-content" data-off-canvas-content>
+          <div class="grid-x">
+            <div class="small-12">
+              <div class="crm-top-bar">
+                
+              </div>
+            </div>
+          </div>
+          <!-- Content -->
           <div class="grid-x">
             <div class="small-12">
               <%= render 'layouts/title_bar' %>
